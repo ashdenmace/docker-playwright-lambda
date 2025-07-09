@@ -1,10 +1,12 @@
 FROM amazonlinux:2
 
 RUN yum update -y && \
-    yum install -y python3 tar gzip zip && \
+    yum install -y python3 tar gzip zip curl && \
     python3 -m ensurepip && \
-    pip3 install --upgrade pip && \
-    pip3 install uv
+    pip3 install --upgrade pip
+
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    mv uv /usr/local/bin/
 
 WORKDIR /app
 
