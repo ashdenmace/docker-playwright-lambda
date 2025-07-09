@@ -1,0 +1,49 @@
+name: "Terraform Plan"
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  TF_CLOUD_ORGANIZATION: "PlaySquareOff"
+  TF_API_TOKEN: "${{ secrets.TFC_TEAM_TOKEN }}"
+  TF_WORKSPACE: "docker-playwright-lambda"
+  CONFIG_DIRECTORY: "terraform"
+
+jobs:
+  terraform:
+    name: "Terraform Plan"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Lambda zip with Docker
+        run: |
+          cd docker
+          chmod +x build.sh
+          ./build.sh
+          cd ..
+
+      - name: Upload Terraform configuration to TFC
+        uses: hashicorp/tfc-workflows-github/actions/upload-configuration@v1.0.0
+        id: plan-upload
+        with:
+          workspace: ${{ env.TF_WORKSPACE }}
+          directory: ${{ env.CONFIG_DIRECTORY }}
+
+      - name: Create Plan Run in TFC
+        uses: hashicorp/tfc-workflows-github/actions/create-run@v1.0.0
+        id: plan-run
+        with:
+          workspace: ${{ env.TF_WORKSPACE }}
+          configuration_version: ${{ steps.plan-upload.outputs.configuration_version_id }}
+          is-destroy: false
+
+      - name: Output Plan URL
+        run: |
+          echo "Terraform Plan URL: ${{ steps.plan-run.outputs.run_url }}"
