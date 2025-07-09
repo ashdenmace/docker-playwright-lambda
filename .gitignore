@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.env
+.venv/
+venv/
+.env
+*.egg-info/
+pip-log.txt
+pip-delete-this-directory.txt
+
+#UV virtual env 
+.venv/
+.uv/
+
+# Docker
+dist/
+docker/lambda.zip
+*.tar
+*.tar.gz
+
+# Terraform
+*.tfstate
+*.tfstate.*
+*.backup
+*.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+override.tf
+override.tf.json
+crash.log
+
+# GitHub Actions workflow logs
+.github/workflows/*.log
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# MacOS
+.DS_Store
+
+# Node 
+node_modules/
+npm-debug.log
+yarn-error.log
