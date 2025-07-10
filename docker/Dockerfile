@@ -1,21 +1,25 @@
+# Dockerfile (at docker/Dockerfile)
 FROM amazonlinux:2
 
 RUN yum update -y && \
-    yum install -y python3 tar gzip zip git && \
-    python3 -m venv /opt/venv && \
-    /opt/venv/bin/pip install --upgrade pip
+    yum install -y python3 tar gzip zip curl git && \
+    python3 -m ensurepip && \
+    pip3 install --upgrade pip
+
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    mv ~/.local/bin/uv ~/.local/bin/uvx /usr/local/bin/
 
 WORKDIR /app
 
 COPY python/ ./python/
 
-RUN /opt/venv/bin/pip install \
-      playwright \
-      playwright-aws-lambda \
-      beautifulsoup4 && \
-    /opt/venv/bin/playwright install chromium && \
-    mkdir -p package && \
-    cp -r /opt/venv/lib/python3.*/site-packages/* package/ && \
+RUN mkdir -p package && \
+    uv pip install \
+      playwright==1.35.0 \
+      beautifulsoup4 \
+      --target package && \
+
+    uvx playwright install chromium && \
     cp -r python package/ && \
     cd package && zip -r /app/lambda.zip .
 
