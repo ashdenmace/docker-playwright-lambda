@@ -1,6 +1,6 @@
 FROM public.ecr.aws/lambda/python:3.11
 
-RUN yum install -y curl git zip && \
+RUN yum install -y curl git zip tar && \
     pip install --upgrade pip
 
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
