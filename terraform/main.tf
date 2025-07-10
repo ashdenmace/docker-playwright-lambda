@@ -23,8 +23,8 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
 
 resource "aws_lambda_function" "playwright" {
   function_name    = "playwright-lambda"
-  filename         = "${path.module}/../dist/lambda.zip"
-  source_code_hash = filebase64sha256("${path.module}/../dist/lambda.zip")
+  filename         = "${path.module}/dist/lambda.zip"
+  source_code_hash = filebase64sha256("${path.module}/dist/lambda.zip")
   handler          = "python.lambda_function.handler"
   runtime          = "python3.11"
   timeout          = 30
