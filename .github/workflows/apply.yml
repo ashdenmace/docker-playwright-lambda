@@ -25,12 +25,15 @@ jobs:
           chmod +x docker/build.sh
           docker/build.sh
 
+      - name: List Terraform dist folder
+        run: ls -l terraform/dist
+
       - name: Upload Terraform configuration to TFC
         uses: hashicorp/tfc-workflows-github/actions/upload-configuration@v1.0.0
         id: apply-upload
         with:
           workspace: ${{ env.TF_WORKSPACE }}
-          directory: ${{ env.CONFIG_DIRECTORY }}
+          directory: terraform
 
       - name: Create Apply Run
         uses: hashicorp/tfc-workflows-github/actions/create-run@v1.0.0
