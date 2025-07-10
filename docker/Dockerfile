@@ -3,7 +3,7 @@ FROM python:3.11-slim-bookworm
 
 # System deps for playwright (Chromium)
 RUN apt-get update && apt-get install -y \
-    curl unzip wget gnupg tar \
+    curl unzip wget gnupg tar zip \
     libglib2.0-0 libnss3 libatk1.0-0 libatk-bridge2.0-0 \
     libx11-xcb1 libxcomposite1 libxdamage1 libxrandr2 \
     libxss1 libxtst6 libgbm1 libasound2 libpangocairo-1.0-0 \
