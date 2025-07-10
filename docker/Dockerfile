@@ -6,7 +6,7 @@ RUN yum update -y && \
     pip3 install --upgrade pip
 
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
-    mv uv /usr/local/bin/
+    mv ~/.local/bin/uv ~/.local/bin/uvx /usr/local/bin/
 
 WORKDIR /app
 
