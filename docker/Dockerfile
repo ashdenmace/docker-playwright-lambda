@@ -12,10 +12,9 @@ WORKDIR /app
 
 COPY python/ ./python/
 
-RUN uv venv && \
-    .venv/bin/uv pip install playwright playwright_aws_lambda beautifulsoup4 && \
-    .venv/bin/playwright install chromium && \
-    mkdir -p package && \
-    cp -r .venv/lib/python3.*/site-packages/* package/ && \
+RUN mkdir -p package && \
+    uv pip install playwright playwright_aws_lambda beautifulsoup4 --target package && \
+    .local/bin/playwright install chromium && \
     cp -r python package/ && \
     cd package && zip -r /app/lambda.zip .
+
